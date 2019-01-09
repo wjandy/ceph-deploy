@@ -30,8 +30,9 @@ def run(cmd):
         print_error([], traceback.format_exc(error).split('\n'))
         raise SystemExit(1)
 
-    if result.wait():
-        print_error(result.stdout.readlines(), result.stderr.readlines())
+    stdout, stderr = result.communicate()
+    if result.returncode:
+        print_error(stdout.split('\n'), stderr.split('\n'))
 
     return result.returncode
 
